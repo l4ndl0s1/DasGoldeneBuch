@@ -1,0 +1,42 @@
+<div class="px-4 py-6">
+  <h2 class="text-2xl font-bold mb-4">All News</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div
+      *ngFor="let news of newsList"
+      class="border border-gray-200 rounded-md p-4 shadow-md flex flex-col"
+    >
+      <div class="mb-2">
+        <img
+          *ngIf="news.image"
+          [src]="news.image"
+          [alt]="news.title"
+          class="w-full h-auto object-cover"
+        />
+      </div>
+      <h3 class="text-xl font-semibold mb-1">
+        <a
+          [routerLink]="['/news', news.id]"
+          class="text-indigo-600 hover:underline"
+        >
+          {{ news.title }}
+        </a>
+      </h3>
+      <p class="text-sm text-gray-500 mb-2">
+        {{ news.place }} | {{ news.eventDate | date : "mediumDate" }}
+      </p>
+
+      <p class="text-gray-700 flex-grow mb-2">
+        {{ news.shortInfo }}
+      </p>
+
+      <div class="mt-auto">
+        <a
+          [routerLink]="['/news', news.id]"
+          class="inline-block text-blue-600 hover:text-blue-800 font-medium"
+          >Read More</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

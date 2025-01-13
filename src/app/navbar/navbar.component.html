@@ -1,0 +1,122 @@
+<nav class="bg-white border-b border-gray-200 sticky top-0 left-0 w-full z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center">
+        <a routerLink="/" class="text-xl font-bold text-indigo-600">
+          MyBrand
+        </a>
+      </div>
+
+      <!-- for Desktop  -->
+      <div class="hidden md:flex space-x-6 items-center">
+        <a
+          routerLink="/news"
+          class="text-gray-600 hover:text-indigo-600 transition-colors"
+          >News</a
+        >
+        <a
+          routerLink="/about"
+          class="text-gray-600 hover:text-indigo-600 transition-colors"
+          >About</a
+        >
+        <a
+          routerLink="/mission"
+          class="text-gray-600 hover:text-indigo-600 transition-colors"
+          >Mission</a
+        >
+        <a
+          routerLink="/archive"
+          class="text-gray-600 hover:text-indigo-600 transition-colors"
+          >Archive</a
+        >
+        <a
+          routerLink="/team"
+          class="text-gray-600 hover:text-indigo-600 transition-colors"
+          >Team</a
+        >
+        <a
+          routerLink="/support"
+          class="text-gray-600 hover:text-indigo-600 transition-colors"
+          >Support</a
+        >
+        <a
+          routerLink="/contact"
+          class="text-gray-600 hover:text-indigo-600 transition-colors"
+          >Contact</a
+        >
+      </div>
+
+      <div class="md:hidden flex items-center">
+        <button
+          type="button"
+          class="text-gray-600 hover:text-indigo-600 focus:outline-none"
+          (click)="toggleMenu()"
+          aria-label="Toggle menu"
+        >
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- mobile menü -->
+  <div *ngIf="menuOpen" class="md:hidden bg-white border-t border-gray-200">
+    <div class="px-2 pt-2 pb-3 space-y-1 flex flex-col">
+      <a
+        routerLink="/news"
+        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
+        (click)="toggleMenu()"
+        >News</a
+      >
+      <a
+        routerLink="/about"
+        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
+        (click)="toggleMenu()"
+        >About</a
+      >
+      <a
+        routerLink="/mission"
+        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
+        (click)="toggleMenu()"
+        >Mission</a
+      >
+      <a
+        routerLink="/archive"
+        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
+        (click)="toggleMenu()"
+        >Archive</a
+      >
+      <a
+        routerLink="/team"
+        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
+        (click)="toggleMenu()"
+        >Team</a
+      >
+      <a
+        routerLink="/support"
+        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
+        (click)="toggleMenu()"
+        >Support</a
+      >
+      <a
+        routerLink="/contact"
+        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
+        (click)="toggleMenu()"
+        >Contact</a
+      >
+    </div>
+  </div>
+</nav>
