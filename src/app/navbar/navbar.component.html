@@ -1,122 +1,140 @@
-<nav class="bg-white border-b border-gray-200 sticky top-0 left-0 w-full z-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16">
-      <!-- Logo -->
-      <div class="flex-shrink-0 flex items-center">
-        <a routerLink="/" class="text-xl font-bold text-indigo-600">
-          MyBrand
-        </a>
-      </div>
+<nav class="h-44 p-8 sticky top-0 left-0 w-full z-50">
+  <!-- Mobile Menu Button Container -->
+  <div class="md:hidden fixed top-1 right-1 z-50">
+    <div class="flex items-center justify-between space-x-4">
+      <svg height="210" width="500" xmlns="http://www.w3.org/2000/svg">
+        <polyline
+          points="0,100 
+          25,95 50,85 75,80 100,85 
+          125,95 150,110 175,125 
+          200,130 225,125 250,110 
+          275,95 300,85 325,80 
+          350,85 375,95 400,110 
+          425,125 450,130 475,125 500,110"
+          style="fill: none; stroke: yellow; stroke-width: 3"
+        />
+      </svg>
+      <button
+        type="button"
+        class="text-green-200 hover:text-yellow-200 focus:outline-none"
+        (click)="toggleMenu()"
+        aria-label="Toggle menu"
+      >
+        <svg
+          class="h-32 w-32"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 32 32"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
 
-      <!-- for Desktop  -->
+  <!-- Obere Seite -->
+  <div
+    class="absolute top-0 left-0 w-full flex overflow-hidden bg-gradient-to-l from-green-200 to-gray-400"
+  >
+    <div class="whitespace-nowrap animate-marquee-top">
+      <span class="mx-4 text-blue-600 text-3xl animate-gradient-x"
+        >Willkommen</span
+      >
+      <span class="mx-4 text-blue-600 text-3xl animate-gradient-x">zum</span>
+      <span class="mx-4 text-blue-600 text-3xl animate-gradient-x"
+        >Goldenen</span
+      >
+      <span class="mx-4 text-blue-600 text-3xl animate-gradient-x">Buch</span>
+    </div>
+  </div>
+
+  <!-- Untere Seite -->
+  <div
+    class="absolute bottom-0 left-0 w-full flex overflow-hidden bg-gradient-to-r from-green-200 to-gray-400"
+  >
+    <div class="whitespace-nowrap animate-marquee-bottom">
+      <span class="mx-4 text-blue-600 text-3xl animate-gradient-x"
+        >Willkommen</span
+      >
+      <span class="mx-4 text-blue-600 text-3xl animate-gradient-x">zum</span>
+      <span class="mx-4 text-blue-600 text-3xl animate-gradient-x">Frauen</span>
+      <span class="mx-4 text-blue-600 text-3xl animate-gradient-x"
+        >Matinee</span
+      >
+    </div>
+  </div>
+
+  <!-- Hauptinhalt der Navbar -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+    <div class="flex justify-center items-center h-full">
+      <!-- For Desktop -->
       <div class="hidden md:flex space-x-6 items-center">
-        <a
-          routerLink="/news"
-          class="text-gray-600 hover:text-indigo-600 transition-colors"
-          >News</a
+        <svg height="210" width="500" xmlns="http://www.w3.org/2000/svg">
+          <polyline
+            points="0,100 
+              25,95 50,85 75,80 100,85 
+              125,95 150,110 175,125 
+              200,130 225,125 250,110 
+              275,95 300,85 325,80 
+              350,85 375,95 400,110 
+              425,125 450,130 475,125 500,110"
+            style="fill: none; stroke: yellow; stroke-width: 3"
+          />
+        </svg>
+        <div
+          *ngFor="let link of navLinks"
+          class="relative flex items-center justify-center w-16 h-16"
         >
-        <a
-          routerLink="/about"
-          class="text-gray-600 hover:text-indigo-600 transition-colors"
-          >About</a
-        >
-        <a
-          routerLink="/mission"
-          class="text-gray-600 hover:text-indigo-600 transition-colors"
-          >Mission</a
-        >
-        <a
-          routerLink="/archive"
-          class="text-gray-600 hover:text-indigo-600 transition-colors"
-          >Archive</a
-        >
-        <a
-          routerLink="/team"
-          class="text-gray-600 hover:text-indigo-600 transition-colors"
-          >Team</a
-        >
-        <a
-          routerLink="/support"
-          class="text-gray-600 hover:text-indigo-600 transition-colors"
-          >Support</a
-        >
-        <a
-          routerLink="/contact"
-          class="text-gray-600 hover:text-indigo-600 transition-colors"
-          >Contact</a
-        >
-      </div>
-
-      <div class="md:hidden flex items-center">
-        <button
-          type="button"
-          class="text-gray-600 hover:text-indigo-600 focus:outline-none"
-          (click)="toggleMenu()"
-          aria-label="Toggle menu"
-        >
-          <svg
-            class="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+          <a
+            [routerLink]="link.url"
+            class="text-gray-700 font-bold hover:text-green-100 transition-colors text-xl text-center"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
+            {{ link.label }}
+          </a>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- mobile menü -->
-  <div *ngIf="menuOpen" class="md:hidden bg-white border-t border-gray-200">
-    <div class="px-2 pt-2 pb-3 space-y-1 flex flex-col">
-      <a
-        routerLink="/news"
-        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
-        (click)="toggleMenu()"
-        >News</a
+  <!-- Mobile Menu -->
+  <div *ngIf="menuOpen" class="md:hidden fixed inset-0 bg-white z-50">
+    <button
+      type="button"
+      class="absolute top-10 right-6 text-green-200 hover:text-indigo-600 focus:outline-none"
+      (click)="toggleMenu()"
+      aria-label="Close menu"
+    >
+      <svg
+        class="h-32 w-32"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
       >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+    <div
+      class="bg-paper h-full flex flex-col items-center justify-center space-y-8"
+    >
       <a
-        routerLink="/about"
-        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
+        *ngFor="let link of navLinks"
+        [routerLink]="link.url"
         (click)="toggleMenu()"
-        >About</a
+        class="text-2xl font-medium text-gray-600 hover:text-indigo-600 transition-colors"
       >
-      <a
-        routerLink="/mission"
-        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
-        (click)="toggleMenu()"
-        >Mission</a
-      >
-      <a
-        routerLink="/archive"
-        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
-        (click)="toggleMenu()"
-        >Archive</a
-      >
-      <a
-        routerLink="/team"
-        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
-        (click)="toggleMenu()"
-        >Team</a
-      >
-      <a
-        routerLink="/support"
-        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
-        (click)="toggleMenu()"
-        >Support</a
-      >
-      <a
-        routerLink="/contact"
-        class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-indigo-600"
-        (click)="toggleMenu()"
-        >Contact</a
-      >
+        {{ link.label }}
+      </a>
     </div>
   </div>
 </nav>
+<br />

@@ -16,6 +16,8 @@ import { ContactComponent } from './contact/contact.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { provideHttpClient } from '@angular/common/http';
 import { NewsListComponent } from './news-list/news-list.component';
+import { HeroComponent } from './hero/hero.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { NewsListComponent } from './news-list/news-list.component';
     SupportComponent,
     ContactComponent,
     NavbarComponent,
+    HeroComponent,
+    FooterComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [provideClientHydration(), provideHttpClient()],

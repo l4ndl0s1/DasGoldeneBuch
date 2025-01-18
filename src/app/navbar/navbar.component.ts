@@ -13,4 +13,14 @@ export class NavbarComponent {
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
+
+  navLinks = [
+    { label: 'News', url: '/news' },
+    { label: 'About', url: '/about' },
+    { label: 'Mission', url: '/mission' },
+    { label: 'Archive', url: '/archive' },
+    { label: 'Team', url: '/team' },
+    { label: 'Support', url: '/support' },
+    { label: 'Contact', url: '/contact' },
+  ];
 }
