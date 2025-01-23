@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-import {
-  BrowserModule,
-  provideClientHydration,
-} from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,10 +13,11 @@ import { TeamComponent } from './team/team.component';
 import { SupportComponent } from './support/support.component';
 import { ContactComponent } from './contact/contact.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { provideHttpClient } from '@angular/common/http';
 import { NewsListComponent } from './news-list/news-list.component';
 import { HeroComponent } from './hero/hero.component';
 import { FooterComponent } from './footer/footer.component';
+import { RetrospectComponent } from './retrospect/retrospect.component';
+import { routes } from './app.routes';
 
 @NgModule({
   declarations: [
@@ -31,11 +31,17 @@ import { FooterComponent } from './footer/footer.component';
     SupportComponent,
     ContactComponent,
     NavbarComponent,
-    HeroComponent,
     FooterComponent,
+    RetrospectComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
-  providers: [provideClientHydration(), provideHttpClient()],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    RouterModule.forRoot(routes),
+    HeroComponent,
+  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

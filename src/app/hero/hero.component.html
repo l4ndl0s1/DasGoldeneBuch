@@ -1,35 +1,76 @@
-<div class="flex justify-center items-center w-full">
-  <img src="Images/projects.png" alt="Centered Overlay" class="w-40 h-auto" />
-</div>
-<div
-  class="flex items-center justify-center bg-gradient-to-r from-green-200 to-gray-400 m-5 p-5"
->
-  <div class="relative w-96 h-96 rounded-full overflow-hidden spin">
-    <div class="flex w-full h-full">
-      <!-- Linkes Bild -->
-      <div class="w-1/2 h-full overflow-hidden relative group">
-        <img
-          src="Images/golden_book_web_low-ALpXj7a79GUbk4XX.png"
-          alt="Linkes Bild"
-          class="w-full h-full object-cover"
-        />
+<div class="relative min-h-6 flex items-center py-10 overflow-hidden">
+  <!-- Decorative background elements -->
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-pink-200 to-transparent"
+  ></div>
+
+  <!-- Floating shapes -->
+  <div
+    class="absolute w-64 h-64 bg-purple-200/20 rounded-full blur-3xl -left-20 animate-blob"
+  ></div>
+  <div
+    class="absolute w-72 h-72 bg-red-200/20 rounded-full blur-3xl -right-20 animate-blob animation-delay-2000"
+  ></div>
+
+  <div class="relative w-full max-w-7xl mx-auto px-6 z-10">
+    <!-- Header Section -->
+    <div class="text-center mb-24">
+      <h1
+        class="text-8xl md:text-9xl lg:text-[12rem] font-bold text-purple-400 scroll-animate scroll-fade-left leading-none mb-8"
+      >
+        Das Goldene Buch:
+      </h1>
+      <p
+        class="text-4xl md:text-4xl text-white/80 font-light tracking-wide drop-shadow-xl"
+      >
+        Ein feministisches Zine-Projekt von 2022 - 2025
+      </p>
+    </div>
+
+    <!-- Events Grid -->
+    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div
+        class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-400/10 to-purple-400/5 p-1"
+      >
         <div
-          class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+          class="relative p-6 h-full transition-transform duration-300 group-hover:scale-105"
         >
-          <p class="text-white text-xl">Goldenes Buch</p>
+          <h2
+            class="text-4xl md:text-5xl text-purple-300 group-hover:text-purple-400 font-medium mb-4"
+          >
+            Befreiende Evas
+          </h2>
+          <span class="text-white font-bold text-xl">2022</span>
         </div>
       </div>
-      <!-- Rechtes Bild -->
-      <div class="w-1/2 h-full overflow-hidden relative group">
-        <img
-          src="Images/matinee.webp"
-          alt="Rechtes Bild"
-          class="w-full h-full object-cover"
-        />
+
+      <div
+        class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-400/10 to-purple-400/5 p-1"
+      >
         <div
-          class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+          class="relative p-6 h-full transition-transform duration-300 group-hover:scale-105"
         >
-          <p class="text-white text-xl">Matinee</p>
+          <h2
+            class="text-4xl md:text-5xl text-purple-300 group-hover:text-purple-400 font-medium mb-4"
+          >
+            Das Goldene Buch
+          </h2>
+          <span class="text-white font-bold text-xl">2023</span>
+        </div>
+      </div>
+
+      <div
+        class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-400/10 to-purple-400/5 p-1"
+      >
+        <div
+          class="relative p-6 h-full transition-transform duration-300 group-hover:scale-105"
+        >
+          <h2
+            class="text-4xl md:text-5xl text-purple-300 group-hover:text-purple-400 font-medium mb-4"
+          >
+            Frauen Matinee
+          </h2>
+          <span class="text-white font-bold text-xl">2025</span>
         </div>
       </div>
     </div>

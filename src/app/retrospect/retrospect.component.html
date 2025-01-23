@@ -1,0 +1,92 @@
+<div class="flex justify-center items-center w-full mb-12">
+  <h2 class="text-4xl sm:text-8xl md:text-6xl text-white font-bold">
+    Memories
+  </h2>
+</div>
+<div class="relative w-full px-4 md:px-8 lg:px-12">
+  <!-- Background Text -->
+  <div
+    class="absolute inset-0 flex items-center justify-center pointer-events-none"
+  >
+    <span class="text-[15vw] font-black text-purple-300/20 select-none"
+      >MEMORIES</span
+    >
+  </div>
+
+  <div class="bg-transparent">
+    <!-- Collage Grid -->
+    <div class="relative min-h-[800px] lg:min-h-[1000px] mx-auto">
+      <div
+        *ngFor="let image of eventImages; let i = index"
+        [ngStyle]="{
+          transform: 'rotate(' + randomData[i].rotate + 'deg)',
+          position: 'absolute',
+          left:
+            'clamp(5%, ' +
+            randomData[i].left +
+            '%, ' +
+            (95 - (randomData[i].left > 50 ? 40 : 0)) +
+            '%)',
+          top: randomData[i].top + '%'
+        }"
+        class="group w-48 sm:w-72 md:w-80 lg:w-96 xl:w-[420px] bg-white p-3 sm:p-4 rounded-lg shadow-lg hover:scale-105 hover:z-10 hover:shadow-xl transition-all duration-300 cursor-pointer"
+        (click)="openFullscreen(image)"
+      >
+        <img
+          [src]="image.url"
+          [alt]="image.alt"
+          class="w-full aspect-square object-cover rounded-md"
+          (error)="handleImageError($event)"
+        />
+        <div class="mt-2 bg-purple-400 p-2 rounded-md">
+          <p class="text-sm text-white text-center font-medium">
+            {{ image.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fullscreen Overlay -->
+<div
+  *ngIf="selectedImage"
+  class="fixed inset-0 bg-pink-200 bg-opacity-90 z-50 flex items-center justify-center"
+  (click)="closeFullscreen()"
+>
+  <div
+    class="max-w-4xl w-full mx-4 bg-white rounded-lg p-4"
+    (click)="$event.stopPropagation()"
+  >
+    <img
+      [src]="selectedImage.url"
+      [alt]="selectedImage.alt"
+      class="w-full object-contain max-h-[80vh] rounded-lg"
+    />
+    <div class="mt-4 bg-purple-400 p-4 rounded-md">
+      <p class="text-sm text-white text-center font-medium">
+        {{ selectedImage.description }}
+      </p>
+    </div>
+    <button
+      (click)="closeFullscreen()"
+      class="absolute top-4 right-4 text-white hover:text-purple-400"
+    >
+      <svg
+        class="w-16 h-16"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="h-24"></div>

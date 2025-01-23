@@ -1,0 +1,14 @@
+.grid > div {
+  transform-origin: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.grid > div:hover {
+  z-index: 50;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 6px rgba(0, 0, 0, 0.15);
+}
+
+img {
+  border: 1px solid #e5e5e5;
+}

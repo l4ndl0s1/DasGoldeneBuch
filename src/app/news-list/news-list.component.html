@@ -1,53 +1,57 @@
-<div class="flex justify-center items-center w-full">
-  <img src="Images/news.png" alt="Centered Overlay" class="w-40 h-auto" />
-</div>
-<div class="relative bg-white m-5">
-  <div
-    class="flex flex-wrap justify-center items-center gap-8 bg-gradient-to-l from-green-200 to-gray-400 p-5"
-  >
+<div class="container mx-auto px-2 py-8">
+  <div class="relative">
+    <!-- Large Background Text -->
+    <div class="mb-0 flex justify-center items-center">
+      <h2
+        class="text-[12vw] font-black text-purple-300/15 leading-[0.9] select-none translate-y-8"
+      >
+        NEWS
+      </h2>
+    </div>
+
+    <!-- News Grid -->
     <div
-      *ngFor="let news of newsList"
-      class="relative w-96 h-96 rounded-full flex flex-col overflow-hidden shadow-md animate-wiggle group bg-gray-200"
+      class="relative -mt-16 z-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
     >
-      <!-- Image in the top half -->
-      <div class="h-1/2 w-full">
-        <img
-          *ngIf="news.image"
-          [src]="news.image"
-          [alt]="news.title"
-          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-150 group-hover:translate-y-1/4"
-        />
-      </div>
+      <div
+        *ngFor="let news of newsList"
+        class="bg-pink-200/50 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 hover:scale-102"
+      >
+        <!-- Image container -->
+        <div class="aspect-video w-full overflow-hidden rounded-t-lg">
+          <img
+            *ngIf="news.image"
+            [src]="news.image"
+            [alt]="news.title"
+            class="w-full h-full object-cover"
+          />
+        </div>
 
-      <!-- Text in the bottom half -->
-      <div class="h-1/2 flex flex-col justify-center items-center">
-        <h3
-          class="mx-4 text-black text-center text-3xl text-transparent animate-gradient-x p-5"
-        >
-          <a [routerLink]="['/news', news.id]" class="hover:underline">
-            {{ news.title }}
+        <!-- Content container -->
+        <div class="p-8">
+          <h3 class="text-2xl font-bold mb-3 text-purple-600">
+            <a [routerLink]="['/news', news.id]" class="hover:text-purple-600">
+              {{ news.title }}
+            </a>
+          </h3>
+
+          <div class="text-sm text-white mb-4 font-semibold">
+            {{ news.place }} | {{ news.eventDate | date : "mediumDate" }}
+          </div>
+
+          <p class="text-white mb-6 text-lg">
+            {{ news.shortInfo }}
+          </p>
+
+          <a
+            [routerLink]="['/news', news.id]"
+            class="inline-block px-6 py-3 text-lg bg-purple-400 text-white rounded-md hover:bg-purple-600 transition-colors duration-300 shadow-md hover:shadow-lg"
+          >
+            Details
           </a>
-        </h3>
-        <p class="text-xs text-gray-500 text-center">
-          {{ news.place }} | {{ news.eventDate | date : "mediumDate" }}
-        </p>
-        <p class="text-xs text-gray-500 text-center">
-          {{ news.shortInfo }}
-        </p>
-
-        <p class="text-xs text-gray-500 text-center">
-          {{ news.details }}
-        </p>
-        <p class="text-xs text-gray-500 text-center">
-          {{ news.link }}
-        </p>
-        <button
-          [routerLink]="['/news', news.id]"
-          class="mt-2 px-2 py-2 bg-slate-300 text-black rounded-full hover:bg-green-200 transition-colors duration-300"
-        >
-          Details
-        </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
+<app-retrospect></app-retrospect>
