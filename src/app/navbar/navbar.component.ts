@@ -20,7 +20,6 @@ export class NavbarComponent {
     { label: 'Mission', url: '/mission' },
     { label: 'Archive', url: '/archive' },
     { label: 'Team', url: '/team' },
-    { label: 'Support', url: '/support' },
     { label: 'Contact', url: '/contact' },
   ];
 }

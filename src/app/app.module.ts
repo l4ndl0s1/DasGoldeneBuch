@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,9 @@ import { HeroComponent } from './hero/hero.component';
 import { FooterComponent } from './footer/footer.component';
 import { RetrospectComponent } from './retrospect/retrospect.component';
 import { routes } from './app.routes';
+import { AboutHeaderComponent } from './about-header/about-header.component';
+import { MissionHeaderComponent } from './mission-header/mission-header.component';
+
 
 @NgModule({
   declarations: [
@@ -26,13 +30,14 @@ import { routes } from './app.routes';
     NewsListComponent,
     AboutComponent,
     MissionComponent,
-    ArchiveComponent,
     TeamComponent,
     SupportComponent,
     ContactComponent,
     NavbarComponent,
     FooterComponent,
     RetrospectComponent,
+    AboutHeaderComponent,
+    MissionHeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +45,7 @@ import { routes } from './app.routes';
     HttpClientModule,
     RouterModule.forRoot(routes),
     HeroComponent,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
