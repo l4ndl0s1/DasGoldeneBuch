@@ -20,6 +20,8 @@ export class ArchiveComponent implements OnInit {
   selectedYear: string = this.ALL_YEARS;
   groupedEvents: { [key: string]: EventItem[] } = {};
   availableYears: string[] = [];
+  
+  isDropdownExpanded: boolean = false;
 
   ngOnInit(): void {
     this.extractYears();
@@ -54,7 +56,7 @@ export class ArchiveComponent implements OnInit {
     const headlines: { [key: string]: string } = {
       '2022': 'Befreiende Evas',
       '2023': 'Das goldene Buch',
-      '2024': 'Workshops & Events 2024',
+      '2024': 'Workshops & Events',
       '2025': 'Frauen Matinee',
     };
     return headlines[year] || 'Vergangene Ereignisse';

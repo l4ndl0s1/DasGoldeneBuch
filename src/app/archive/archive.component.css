@@ -1,0 +1,18 @@
+select:focus {
+    background-color: #c084fc !important; 
+  }
+  select {
+    -webkit-appearance: none; /* Entfernt Standard-Styling */
+    appearance: none; /* Entfernt Standard-Styling in anderen Browsern */
+    background-color: #c084fc; /* Deine gewünschte Hintergrundfarbe */
+    color: white; /* Textfarbe */
+    border: 1px solid #a855f7; /* Lila Rahmen */
+    border-radius: 8px;
+    padding: 8px;
+  }
+  select option {
+    background-color: #c084fc; /* Hintergrundfarbe der Optionen */
+    color: white; /* Textfarbe */
+  }
+  
+  

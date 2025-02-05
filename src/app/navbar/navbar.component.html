@@ -53,11 +53,12 @@
         </div>
 
         <!-- Logo -->
-        <img
+       <a [routerLink]="['/news']"> <img
           src="Images/gb.png"
           alt="Goldenebuch Logo"
           class="w-32 h-32 object-contain transition-all hover:backdrop-filter hover:backdrop-brightness-75 p-2 hover:backdrop-saturate-200"
         />
+        </a>
 
         <!-- Second half of navigation links -->
         <div class="flex space-x-4 xl:space-x-8 items-center">
@@ -80,11 +81,13 @@
   <!-- Mobile Menu -->
   <div *ngIf="menuOpen" class="lg:hidden fixed inset-0 bg-pink-200 z-50">
     <div class="flex justify-between items-center p-4">
-      <img
+      <a [routerLink]="['/news']">
+        <img
         src="Images/gb.png"
         alt="Goldenebuch Logo"
         class="w-24 h-24 object-contain"
       />
+      </a>
       <button
         type="button"
         class="text-purple-300 hover:text-purple-400 focus:outline-none"

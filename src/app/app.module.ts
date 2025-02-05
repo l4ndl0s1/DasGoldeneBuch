@@ -21,6 +21,7 @@ import { RetrospectComponent } from './retrospect/retrospect.component';
 import { routes } from './app.routes';
 import { AboutHeaderComponent } from './about-header/about-header.component';
 import { MissionHeaderComponent } from './mission-header/mission-header.component';
+import { ContactHeaderComponent } from './contact-header/contact-header.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { MissionHeaderComponent } from './mission-header/mission-header.componen
     RetrospectComponent,
     AboutHeaderComponent,
     MissionHeaderComponent,
+    ContactHeaderComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,18 +2,25 @@
 <div class="w-full max-w-7xl mx-auto px-6 py-12">
   <div class="flex justify-center mb-8">
     <select
-      [(ngModel)]="selectedYear"
-      class="px-4 py-2 rounded-lg bg-white border border-purple-200 text-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer"
-      (change)="onYearChange()"
-    >
-      <option *ngFor="let year of availableYears" [value]="year">
-        {{ year === "all" ? "All Events" : year }}
-      </option>
-    </select>
+  [(ngModel)]="selectedYear"
+  class="px-4 py-2 rounded-lg border border-purple-200 bg-transparent text-purple-600 
+         focus:outline-none focus:ring-2 focus:ring-purple-300 focus:text-white focus:bg-purple-200
+         cursor-pointer transition-all duration-300 ease-in-out 
+         shadow-sm hover:shadow-md appearance-none bg-purple-200 text-3xl"
+  (change)="onYearChange()"
+  aria-label="Select Year"
+ 
+
+>
+  <option *ngFor="let year of availableYears" [value]="year">
+    {{ year === "all" ? "2022 - 2025" : year }}
+  </option>
+</select>
+
   </div>
 
   <div *ngFor="let year of groupedEvents | keyvalue" class="mb-12">
-    <h2 class="text-3xl font-bold text-purple-800 mb-6">
+    <h2 class="text-3xl font-bold text-purple-600 mb-6">
       {{ year.key }} - {{ getHeadline(year.key) }}
     </h2>
 
