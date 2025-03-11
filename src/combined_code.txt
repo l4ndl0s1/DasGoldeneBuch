@@ -1,0 +1,1879 @@
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, Component, Inject, PLATFORM_ID } from '@angular/core';
+
+@Component({
+  selector: 'app-about-header',
+  standalone: false,
+
+  templateUrl: './about-header.component.html',
+  styleUrl: './about-header.component.css',
+})
+export class AboutHeaderComponent implements AfterViewInit {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '50px', // Trigger früher
+        }
+      );
+
+      document.querySelectorAll('.scroll-animate').forEach((el) => {
+        observer.observe(el);
+      });
+    }
+  }
+}
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { AboutComponent } from './about.component';
+
+describe('AboutComponent', () => {
+  let component: AboutComponent;
+  let fixture: ComponentFixture<AboutComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [AboutComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(AboutComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-about',
+  standalone: false,
+  
+  templateUrl: './about.component.html',
+  styleUrl: './about.component.css'
+})
+export class AboutComponent {
+
+}
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import { NewsComponent } from './news/news.component';
+import { AboutComponent } from './about/about.component';
+import { MissionComponent } from './mission/mission.component';
+import { ArchiveComponent } from './archive/archive.component';
+import { TeamComponent } from './team/team.component';
+import { SupportComponent } from './support/support.component';
+import { ContactComponent } from './contact/contact.component';
+import { NewsListComponent } from './news-list/news-list.component';
+
+const routes: Routes = [
+  { path: '', redirectTo: '/news', pathMatch: 'full' },
+  { path: 'news', component: NewsListComponent },
+
+  { path: 'about', component: AboutComponent },
+  { path: 'mission', component: MissionComponent },
+  { path: 'archive', component: ArchiveComponent },
+  { path: 'team', component: TeamComponent },
+  { path: 'support', component: SupportComponent },
+  { path: 'contact', component: ContactComponent },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css',
+    standalone: false
+})
+export class AppComponent {
+  title = 'Goldenebuch';
+}
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideClientHydration } from '@angular/platform-browser';
+
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(withFetch()),
+    provideRouter(routes),
+    provideClientHydration(),
+  ],
+};
+import { NgModule } from '@angular/core';
+import { ServerModule } from '@angular/platform-server';
+
+import { AppModule } from './app.module';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  imports: [AppModule, ServerModule],
+  bootstrap: [AppComponent],
+})
+export class AppServerModule {}
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { NewsComponent } from './news/news.component';
+import { AboutComponent } from './about/about.component';
+import { MissionComponent } from './mission/mission.component';
+import { ArchiveComponent } from './archive/archive.component';
+import { TeamComponent } from './team/team.component';
+import { SupportComponent } from './support/support.component';
+import { ContactComponent } from './contact/contact.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { NewsListComponent } from './news-list/news-list.component';
+import { HeroComponent } from './hero/hero.component';
+import { FooterComponent } from './footer/footer.component';
+import { RetrospectComponent } from './retrospect/retrospect.component';
+import { routes } from './app.routes';
+import { AboutHeaderComponent } from './about-header/about-header.component';
+import { MissionHeaderComponent } from './mission-header/mission-header.component';
+import { ContactHeaderComponent } from './contact-header/contact-header.component';
+
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    NewsComponent,
+    NewsListComponent,
+    AboutComponent,
+    MissionComponent,
+    TeamComponent,
+    SupportComponent,
+    ContactComponent,
+    NavbarComponent,
+    FooterComponent,
+    RetrospectComponent,
+    AboutHeaderComponent,
+    MissionHeaderComponent,
+    ContactHeaderComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    RouterModule.forRoot(routes),
+    HeroComponent,
+    FormsModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+import { Routes } from '@angular/router';
+import { NewsListComponent } from './news-list/news-list.component';
+import { RetrospectComponent } from './retrospect/retrospect.component';
+import { HeroComponent } from './hero/hero.component';
+import { ArchiveComponent } from './archive/archive.component';
+
+export const routes: Routes = [
+  { path: '', component: HeroComponent },
+  { path: 'news', component: NewsListComponent },
+  { path: 'retrospect', component: RetrospectComponent },
+  { path: 'archive', component: ArchiveComponent },
+  { path: '**', redirectTo: '' },
+];
+import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
+@Component({
+  selector: 'app-archive-header',
+  templateUrl: './archive-header.component.html',
+  styleUrls: ['./archive-header.component.css'],
+  standalone: true,
+})
+export class ArchiveHeaderComponent implements AfterViewInit {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '50px', // Trigger früher
+        }
+      );
+
+      document.querySelectorAll('.scroll-animate').forEach((el) => {
+        observer.observe(el);
+      });
+    }
+  }
+}import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { EventItem, events } from './events.data';
+import { ArchiveHeaderComponent } from '../archive-header/archive-header.component';
+
+@Component({
+  selector: 'app-archive',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ArchiveHeaderComponent],
+  templateUrl: './archive.component.html',
+  styleUrl: './archive.component.css',
+})
+export class ArchiveComponent implements OnInit {
+  private readonly MAX_CHARS = 150;
+  private readonly ALL_YEARS = 'all';
+
+  events: EventItem[] = events;
+
+  selectedYear: string = this.ALL_YEARS;
+  groupedEvents: { [key: string]: EventItem[] } = {};
+  availableYears: string[] = [];
+  
+  isDropdownExpanded: boolean = false;
+
+  ngOnInit(): void {
+    this.extractYears();
+    this.groupEvents();
+  }
+
+  extractYears(): void {
+    const years = new Set(this.events.map((event) => event.year));
+    this.availableYears = [this.ALL_YEARS, ...Array.from(years).sort()];
+  }
+
+  groupEvents(): void {
+    this.groupedEvents = this.events.reduce((acc, event) => {
+      (acc[event.year] = acc[event.year] || []).push(event);
+      return acc;
+    }, {} as { [key: string]: EventItem[] });
+  }
+
+  onYearChange(): void {
+    if (this.selectedYear === this.ALL_YEARS) {
+      this.groupEvents();
+    } else {
+      this.groupedEvents = {
+        [this.selectedYear]: this.events.filter(
+          (event) => event.year === this.selectedYear
+        ),
+      };
+    }
+  }
+
+  getHeadline(year: string): string {
+    const headlines: { [key: string]: string } = {
+      '2022': 'Befreiende Evas',
+      '2023': 'Das goldene Buch',
+      '2024': 'Workshops & Events',
+      '2025': 'Frauen Matinee',
+    };
+    return headlines[year] || 'Vergangene Ereignisse';
+  }
+
+  toggleDescription(event: EventItem): void {
+    event.isExpanded = !event.isExpanded;
+  }
+
+  truncateText(text: string): string {
+    if (!text) return '';
+    if (text.length <= this.MAX_CHARS) return text;
+    return text.substring(0, this.MAX_CHARS) + '...';
+  }
+
+  shouldShowExpandButton(text?: string): boolean {
+    return text ? text.length > this.MAX_CHARS : false;
+  }
+}
+export interface EventItem {
+  title: string;
+  startDate?: string;
+  endDate?: string;
+  description: string;
+  year: string;
+  imageUrl?: string;
+  isExpanded?: boolean;
+}
+
+export const events: EventItem[] = [
+  {
+    title: 'Befreiende Evas',
+   
+    description: `"You cannot avoid being subjective." - Doris Lessing reminds us in The Golden Notebook that our path to overcoming fears lies in writing about personal experiences. Our problems are not solely our own - when we share our stories, we speak for many others whose experiences mirror our own.
+
+As a student in Austria, I took on multiple roles to support myself: dishwasher, cleaner, advertiser, barmaid, teacher, artist. Each role revealed how sharing and multiplying these identities led to freedom. This realization inspired "Befreiende Evas", a project exploring women's* emancipation as both a reflection of and response to our fragmented world.
+
+"Befreiende Evas" emerges from the complex identities of women* who appear simplified in official records. We reject simple categorizations like "worker, girlfriend, politician, housewife, mother." Instead, we collect memories, feelings, documents, news clippings, stories, and artworks in an avant-garde fanzine format. Women* from all backgrounds are invited to contribute.
+
+"Every woman* will add her stone to this project, building the moral structure of our future." We aim to create an "identity gateway" questioning not just female identity but also ethnic, class, and ideological identities. Additionally, we organize monthly Golden Days in Turkey, where women* gather to connect, share, and support each other.`,
+    year: '2022',
+        imageUrl: '/Images/memories/be_3.png',
+    isExpanded: false,
+  },
+  {
+    title: 'Feminist Zine Workshop 1: Introduction',
+    startDate: '2022-09-22',
+  
+    description:
+      'Einführung in das Feminist Zine Projekt und Diskussion über fragmentierte Identitäten von Frauen*.',
+      imageUrl: '/Images/memories/be_5.png',
+    year: '2022',
+  },
+  {
+    title: 'Feminist Zine Workshop 2: Sketches',
+    startDate: '2022-09-23',
+    description:
+      'Skizzierung und Sammlung von Erinnerungen, Gefühlen, Dokumenten und Kunstwerken für das Zine.',
+      imageUrl: '/Images/memories/be_1.jpeg',
+    year: '2022',
+  },
+  {
+    title: 'Feminist Zine Workshop 3: Layout',
+    startDate: '2022-09-24',
+    description:
+      'Gestaltung des Zines als Collage verschiedener Beiträge und Perspektiven.',
+      imageUrl: '/Images/memories/be_4.png',
+    year: '2022',
+  },
+  {
+    title: 'Altın Günü: Feminist Zine Launch',
+    startDate: '2022-09-25',
+    description:
+      'Feierliche Präsentation des Zines mit Ausstellung, Performance und Party - inspiriert von der türkischen Tradition des "Golden Day".',
+      imageUrl: '/Images/memories/be_2.jpeg',
+    year: '2022',
+  },
+  {
+    title: 'Das goldene Buch',
+ 
+    description: `"The Golden Book" is the result of the essentially fragmented identities of women* who appear as a whole in official records such as "worker, friend, lover, active politician, artist, housewife, mother", etc. With great effort, we have to keep these subdivisions separate, but when this fails, something new emerges from the chaos of formlessness: The Golden Book! To explore this fragmentation, the participants developed an idea for a photocopy magazine in each workshop. 
+The final zine, 'The Golden Book' is formed by the collective efforts of many women, addressing professional, personal, and social aspects of identity. The project culminates in a celebratory final event with art, performances, and discussions, showcasing the documented workshop journey and the final zine publication. The Golden Book is a cultural project funded by SHIFT, Basis Kultur Wien and organized by Fabrikraum Kultur und Kunstverein.`,
+imageUrl: '/Images/golden_book_web_low-ALpXj7a79GUbk4XX.png',
+    year: '2023',
+  },
+  {
+    title: 'Workshop #1 - Resilience & Care Performance Program',
+    startDate: '2023-05-20',
+    endDate: '2023-05-21',  
+    description: `Curator: Deniz Güvensoy
+
+Artists: Zeynab Kirikou Gueye, anton_ie and Marina Leo Shamov
+Performance and Lectures,
+
+In these two performative evenings, which will follow the first workshop of the Das Goldene Buch project, we will experience three different performative approaches that engage art with activism. All interested in the issues of trans-inclusive, queer feminism, anti-war, anti-discriminatory activism, ecology, and more than human identities, the artists will present a set of variety of manifesting political and artistic expression. Following the workshop, Zeynab Kirikou Gueye will perform 'Homecoming', an artwork based on story-telling and a semi-hybrid DJ Set. Sharing the nuances of learning about belonging through their embodied experience of returning to Senegal, a place of their ancestry, they will question what power lies in a Black queer consciousness multiplied by racially distinct contexts. On our second evening, anto_nie will present a lecture, taking you a ride into the world of queer/coded villains, queer monstrosity, and its representation in horror movies. After that, Marina Leo will perform a rap performance "When somewhere there becomes somewhere here", dealing with political oppression and queer resistance, based on the manifesto-songs of the Techno-Poetry cooperative, of which Marina is a member. The Resilience & Care performance program is supported by 15. Bezirk/Rudolfsheim`,
+    imageUrl: '/Images/memories/care_1.png',
+    year: '2023',
+  },
+  {
+    title: 'Workshop #2',
+    startDate: '2023-06-17',
+    endDate: '2023-06-18',
+    description: `Main tutor: Sezer Dilan Zirhli
+Guest tutor: Viktoria Ratasich, @viktoria_ratasich
+'feminist stitching workshop'
+Venue support: Bundesvertretung der ÖH (Austrian Students Union).`,
+    imageUrl: '/Images/memories/care_2.png',
+    year: '2023',
+  },
+  {
+    title: 'Workshop #3',
+    startDate: '2023-06-24',
+    endDate: '2023-06-25',
+    description: 'Guest tutor: Ana Castro Villegas @ana_castrov, mixed media and printing techniques Venue: Fabrikraum Kunstverein',
+    imageUrl: '/Images/memories/care_3.png',
+    year: '2023',
+  },
+  {
+    title: 'Workshop #4',
+    startDate: '2023-08-19',
+    endDate: '2023-08-20',
+    description: `
+HERTA MÜLLER Zine-Workshop zu Wörter-Collagen / Zine Workshop with Word-Collages:
+Fabrikraum Kunstverein
+Inspired by the Herta Müller technique of "collage-poetic" writing, in this workshop, we will elevate word collages and writing with images into true poetic works of art - a combination of scissors and paper with profound meaning. We encounter words everywhere, and each one of them is capable of telling a whole story. We will cut out letters and words from newspapers, magazines, and advertising brochures together. With our life plans, experiences, and a feminist sense of design, we will combine these fragments into new texts and create captivating collages.
+`,
+    imageUrl: '/Images/memories/care_4.png',
+    year: '2023',
+  },
+  {
+    title: 'ZINE LAUNCH - The Golden Book',
+    startDate: '2023-09-09',
+    description: `
+Performances, Presentations, exhibition, DJ set 
+Brunnenpassage, Brunnengasse 71 / Yppenplatz 
+Program: 17:00 Opening of the exhibition 17:30 -18:15 talks Moderator: Iva Marković / Welcome speech: Deniz Güvensoy, Project director /Sezer Dilan Zirhli, Workshop Director & Artistic Concept Creator / Sarah Wilhelmy, Partnership Coordinator / Guest speaker: Jelena Micić, Artist, Wienwoche Festival artistic director 
+Performance Program: Anna Watzinger, (+support/assistance) "Rainbow Fashion" - liquid (female*) identities: "Which color/code matches my role/position/situation or mood (of today)?" Media/artist: Interactive work in progress dying textile workshop & related performative installation, Berenice Pahl "Out of the Oikos: Betty Stops Cooking", Marina Leo Shamov "When somewhere there becomes somewhere here", Musical Rap Performance" Zeynab Kirikou Gueye "Homecoming" Leo Lisa Begeré "Futter für die Mutter* DJ Setting : Belén Monó, 21:30-22:30`,
+    imageUrl: '/Images/memories/dgb_3.png',
+    year: '2023',
+  },
+  {
+    title: 'Central European University, "Art in Politics - Creative Disruption"',
+    startDate: '2024-02-02',
+    description: `Herta Müller Word-Collage Workshop by Sezer Dilan ZIRHLI
+Panel Discussion: Creativity as a Political Tool by Deniz Güvensoy`,
+    imageUrl: '/Images/memories/work_1.png',
+    year: '2024',
+  },
+
+  {
+    title: 'DGB Zine Workshop & Rainbow Fashion  ',
+    startDate: '2024-05-25',
+    description: 'Zine Workshop by Sezer Dilan Zırhlı in the frame of the 1150 Bezirksfestwochen and in collaboration with the Smartrainbow Team Anna Watzinger and Laurus Edelbacher',
+    imageUrl: '/Images/memories/work_4.png',
+    year: '2024',
+  },
+
+  {
+    title: 'Herta Müller Word-Collage Workshop',
+    startDate: '2024-03-15',
+    endDate: '2024-03-16',
+    description: `Zine Workshop by Sezer Dilan Zırhlı and Deniz Güvensoy im Mz*Baltazar's Laboratory 
+
+`,
+    imageUrl: '/Images/memories/work_3.png',
+    year: '2024',
+  },
+
+
+
+  {
+    title: 'Frauen Matinee',
+   
+    description: `"Women's Matinée is a cultural project, inspired by the tradition of women's matinées in 1960s Istanbul. Our first project, Befreiende Evas, was inspired by the tradition of Golden Day (Altin Günü), which holds an important place in Turkey's cultural memory. On a Golden Day, women take turns gathering in each other's homes and bringing a piece of gold to the host, creating a cycle of solidarity that transcends economic dependence on men. This practice not only allows women to create their own economy but also fosters the sharing of collective experiences.
+Inspired by Golden Day, we expanded our thinking about women's solidarity in a broader context. In this context, Women's Matinées emerged as a historical example offering women an accessible alternative in both economic and cultural spheres. Matinées are women-only artistic and performative events designed especially for working- and middle-class women, held during daylight hours. These events aim to create a space of liberation for women by transcending the class and gendered boundaries of art.
+Das Goldene Buch/ The Golden Book / Altın Kitap aims not only to revive the collective practices of the past but also to transform them from a feminist perspective. From the women's matinees of Istanbul to the salons of France, from the Ottoman baths to the marketplaces of Africa, we seek to rethink these communal spaces that women have built throughout history.
+The workshops, performances, gastronomic experiences, and discussions organized as part of the Women's Matinee project aim to strengthen women's practices of learning from one another. The works that emerge from these events will be presented in an exhibition and published in the Das Goldene Buch Fanzine, the collective memory of feminist solidarity. DGB continues to redefine art as a means of expression and resistance by giving voice to each female participant."`,
+    imageUrl: '/Images/memories/matinee_1.webp',
+    year: '2025',
+  },
+]; import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
+@Component({
+  selector: 'app-contact-header',
+  standalone: false,
+  
+  templateUrl: './contact-header.component.html',
+  styleUrl: './contact-header.component.css'
+})
+export class ContactHeaderComponent implements AfterViewInit {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '50px', // Trigger früher
+        }
+      );
+
+      document.querySelectorAll('.scroll-animate').forEach((el) => {
+        observer.observe(el);
+      });
+    }
+  }
+}import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-contact',
+  standalone: false,
+  
+  templateUrl: './contact.component.html',
+  styleUrl: './contact.component.css'
+})
+export class ContactComponent {
+
+}
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-footer',
+  standalone: false,
+  
+  templateUrl: './footer.component.html',
+  styleUrl: './footer.component.css'
+})
+export class FooterComponent {
+
+}
+import { Component, AfterViewInit, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
+@Component({
+  selector: 'app-hero',
+  templateUrl: './hero.component.html',
+  styleUrls: ['./hero.component.css'],
+  standalone: true,
+})
+export class HeroComponent implements AfterViewInit {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '50px', // Trigger früher
+        }
+      );
+
+      document.querySelectorAll('.scroll-animate').forEach((el) => {
+        observer.observe(el);
+      });
+    }
+  }
+}
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, Component, Inject, PLATFORM_ID } from '@angular/core';
+
+@Component({
+  selector: 'app-mission-header',
+  standalone: false,
+
+  templateUrl: './mission-header.component.html',
+  styleUrl: './mission-header.component.css',
+})
+export class MissionHeaderComponent implements AfterViewInit {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '50px',
+        }
+      );
+
+      document.querySelectorAll('.scroll-animate').forEach((el) => {
+        observer.observe(el);
+      });
+    }
+  }
+}
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-mission',
+  standalone: false,
+  
+  templateUrl: './mission.component.html',
+  styleUrl: './mission.component.css'
+})
+export class MissionComponent {
+
+}
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-navbar',
+  standalone: false,
+
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.css',
+})
+export class NavbarComponent {
+  menuOpen = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  navLinks = [
+    { label: 'News', url: '/news' },
+    { label: 'About', url: '/about' },
+    { label: 'Mission', url: '/mission' },
+    { label: 'Archive', url: '/archive' },
+    { label: 'Team', url: '/team' },
+    { label: 'Contact', url: '/contact' },
+  ];
+}
+import { Component, OnInit } from '@angular/core';
+import { NewsService, NewsItem } from '../news.service';
+
+@Component({
+  selector: 'app-news-list',
+  standalone: false,
+  templateUrl: './news-list.component.html',
+  styleUrls: ['./news-list.component.css'],
+})
+export class NewsListComponent implements OnInit {
+  newsList: NewsItem[] = [];
+
+  constructor(private newsService: NewsService) {}
+
+  ngOnInit(): void {
+    this.newsService.getAllNews().subscribe(
+      (data) => {
+        this.newsList = data;
+      },
+      (error) => {
+        console.error('Error fetching news:', error);
+      }
+    );
+  }
+}
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface NewsItem {
+  id?: number;
+  title: string;
+  place: string;
+  image: string;
+  eventDate: string;
+  link: string;
+  shortInfo: string;
+  details: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class NewsService {
+  private apiUrl = 'http://127.0.0.1:8000/api/news';
+
+  constructor(private http: HttpClient) {}
+
+  getAllNews(): Observable<NewsItem[]> {
+    return this.http.get<NewsItem[]>(this.apiUrl);
+  }
+
+  getNews(id: number): Observable<NewsItem> {
+    return this.http.get<NewsItem>(`${this.apiUrl}/${id}`);
+  }
+
+  createNews(item: NewsItem): Observable<any> {
+    return this.http.post<any>(this.apiUrl, item);
+  }
+
+  updateNews(id: number, item: NewsItem): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, item);
+  }
+
+  deleteNews(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+}
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-news',
+  standalone: false,
+
+  templateUrl: './news.component.html',
+  styleUrl: './news.component.css',
+})
+export class NewsComponent {}
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  PLATFORM_ID,
+  Inject,
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
+@Component({
+  selector: 'app-retrospect',
+  standalone: false,
+
+  templateUrl: './retrospect.component.html',
+  styleUrl: './retrospect.component.css',
+})
+export class RetrospectComponent implements OnInit, AfterViewInit {
+  event = {
+    title: 'Retrospektive 2024',
+    date: '8.12.2024',
+  };
+
+  eventImages = [
+    {
+      url: 'Images/memories/be_1.jpeg',
+      alt: 'Befreiende Evas',
+      description: 'Befreiende Evas',
+    },
+    {
+      url: 'Images/memories/be_2.jpeg',
+      alt: 'Befreiende Evas',
+      description: 'Befreiende Evas',
+    },
+    {
+      url: 'Images/memories/dgb_1.png',
+      alt: 'Das Goldene Buch',
+      description: 'Das Goldene Buch',
+    },
+    {
+      url: 'Images/memories/dgb_2.png',
+      alt: 'Das Goldene Buch',
+      description: 'Das Goldene Buch',
+    },
+    {
+      url: 'Images/memories/dgb_3.png',
+      alt: 'Das Goldene Buch',
+      description: 'Das Goldene Buch',
+    },
+    {
+      url: 'Images/memories/dgb_4.jpg',
+      alt: 'Event 6',
+      description: 'Das Goldene Buch',
+    },
+    {
+      url: 'Images/foto.jpg',
+      alt: 'Event 7',
+      description: 'Das Goldene Buch',
+    },
+  ];
+  protected Math = Math;
+  private isBrowser: boolean;
+  protected randomData: { rotate: number; left: number; top: number }[] = [];
+  selectedImage: any = null;
+
+  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  getRandomPosition(min: number, max: number): number {
+    if (this.isBrowser) {
+      return Math.random() * (max - min) + min;
+    }
+    return min; // Fallback für SSR
+  }
+
+  handleImageError(event: any) {
+    const imgElement = event.target;
+    imgElement.src = 'Images/fallback.png';
+  }
+
+  openFullscreen(image: any) {
+    this.selectedImage = image;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeFullscreen() {
+    this.selectedImage = null;
+    document.body.style.overflow = 'auto';
+  }
+
+  ngAfterViewInit() {
+    if (this.isBrowser) {
+      this.eventImages.forEach((image) => {
+        const img = new Image();
+        img.src = image.url;
+      });
+    }
+  }
+
+  ngOnInit() {
+    this.eventImages.forEach(() => {
+      const rotate = this.isBrowser ? Math.random() * 16 - 8 : 0;
+      const left = this.getRandomPosition(20, 60);
+      const top = this.getRandomPosition(20, 60);
+      this.randomData.push({ rotate, left, top });
+    });
+  }
+}
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-support',
+  standalone: false,
+  
+  templateUrl: './support.component.html',
+  styleUrl: './support.component.css'
+})
+export class SupportComponent {
+
+}
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-team',
+  standalone: false,
+  
+  templateUrl: './team.component.html',
+  styleUrl: './team.component.css'
+})
+export class TeamComponent {
+
+}
+export { AppServerModule as default } from './app/app.module.server';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+import { AppModule } from './app/app.module';
+
+platformBrowserDynamic()
+  .bootstrapModule(AppModule, {
+    ngZoneEventCoalescing: true,
+  })
+  .catch((err) => console.error(err));
+select:focus {
+    background-color: #c084fc !important; 
+  }
+  select {
+    -webkit-appearance: none; /* Entfernt Standard-Styling */
+    appearance: none; /* Entfernt Standard-Styling in anderen Browsern */
+    background-color: #c084fc; /* Deine gewünschte Hintergrundfarbe */
+    color: white; /* Textfarbe */
+    border: 1px solid #a855f7; /* Lila Rahmen */
+    border-radius: 8px;
+    padding: 8px;
+  }
+  select option {
+    background-color: #c084fc; /* Hintergrundfarbe der Optionen */
+    color: white; /* Textfarbe */
+  }
+  
+  nav {
+  background-color: white;
+  background-image: linear-gradient(
+      rgba(220, 252, 231, 0.7) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(220, 252, 231, 0.7) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center;
+}
+
+.bg-paper {
+  background-color: white;
+  background-image: linear-gradient(
+      rgba(220, 252, 231, 0.7) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(220, 252, 231, 0.7) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center;
+  min-height: 100vh;
+}
+.grid > div {
+  transform-origin: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.grid > div:hover {
+  z-index: 50;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 6px rgba(0, 0, 0, 0.15);
+}
+
+img {
+  border: 1px solid #e5e5e5;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-fade-in-delayed {
+  animation: fadeIn 0.8s ease-out 0.3s forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blob {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(20px, -30px) scale(1.1);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  75% {
+    transform: translate(-30px, -20px) scale(1.05);
+  }
+}
+
+.animate-blob {
+  animation: blob 15s infinite ease-in-out;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.scroll-animate.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-delay-1 {
+  transition-delay: 0.3s;
+}
+
+.scroll-delay-2 {
+  transition-delay: 0.5s;
+}
+
+.scroll-delay-3 {
+  transition-delay: 0.7s;
+}
+
+.scroll-fade-right {
+  transform: translateX(50px) rotate(2deg);
+}
+
+.scroll-fade-left {
+  transform: translateX(-50px) rotate(-2deg);
+}
+
+.scroll-fade-right.active,
+.scroll-fade-left.active {
+  transform: translateX(0) rotate(0);
+}
+
+@layer base {
+  body {
+    background-color: white;
+    background-image: linear-gradient(
+        rgba(220, 252, 231, 0.7) 1px,
+        transparent 1px
+      ),
+      linear-gradient(90deg, rgba(220, 252, 231, 0.7) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: center;
+    min-height: 100vh;
+  }
+}
+<div class="relative min-h-6 flex items-center py-10 overflow-hidden">
+  <!-- Decorative background elements -->
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-pink-200 to-transparent"
+  ></div>
+
+  <!-- Floating shapes -->
+  <div
+    class="absolute w-64 h-64 bg-purple-200/20 rounded-full blur-3xl -left-20 animate-blob"
+  ></div>
+  <div
+    class="absolute w-72 h-72 bg-red-200/20 rounded-full blur-3xl -right-20 animate-blob animation-delay-2000"
+  ></div>
+
+  <div class="relative w-full max-w-7xl mx-auto px-6 z-10">
+    <!-- Header Section -->
+    <div class="text-center mb-24">
+      <h1
+      class="text-6xl md:text-7xl lg:text-[8 rem] font-bold text-purple-400 scroll-animate scroll-fade-left leading-none mb-8"
+    >
+        A Journey into the Collective Memory of Women
+      </h1>
+    </div>
+  </div>
+</div>
+<app-about-header></app-about-header>
+
+<div class="relative min-h-screen py-16 overflow-hidden">
+  <div class="mb-0 flex justify-center items-center">
+    <h2
+      class="text-[12vw] font-black text-purple-300/15 leading-[0.4] select-none translate-y-0 sm:translate-y-8"
+    >
+      ABOUT
+    </h2>
+  </div>
+  <div class="space-y-12 px-4 md:px-10 max-w-6xl mx-auto">
+    <div
+
+    >
+    <p class="text-pink-300/95 leading-relaxed text-lg md:text-xl lg:text-2xl">
+      <span class="font-medium text-purple-300">Das Goldene Buch</span> ist eine feministische Initiative,
+        gegründet 2022 mit unserem ersten Projekt, Befreiende Evas. Diese
+        Initiative, bei der Frauen ihre Geschichten durch künstlerische Mittel
+        zum Ausdruck bringen, debütierte 2022 beim Wienwoche Festival und setzte
+        ihre Reise 2023 mit Unterstützung des SHIFT, Basis Kultur Wien fort. Das
+        Goldene Buch möchte Kunst in eine Praxis der Solidarität und
+        Ermächtigung verwandeln, indem feministische Zine-Workshops für Frauen
+        organisiert werden.
+      </p>
+    </div>
+
+    <div
+    >
+    <p class="text-pink-300/95 leading-relaxed text-lg md:text-xl lg:text-2xl">
+        Für unsere erste Edition organisierten wir vier kreative Workshops mit
+        fünfzig Frauen verschiedener sozialer Identitäten und Altersgruppen.
+        Jeder Workshop, geleitet von einer Kursleiterin, führte einzigartige
+        Methoden ein wie Stickerei, Collage, Zeichnen, Drucktechniken und die
+        Wort-Collage-Techniken der Schriftstellerin Herta Müller. Die in diesen
+        Workshops entstandenen Werke wurden im feministischen Fanzine Das
+        Goldene Buch veröffentlicht und symbolisieren die kollektive Kreativität
+        und den Widerstand der Frauen*.
+      </p>
+    </div>
+
+    <div
+    >
+      <h2 class="text-3xl text-purple-300 font-semibold mb-6 tracking-wide">
+        Looking to the Future, Inspired by the Past
+      </h2>
+      <p class="text-pink-300/95 leading-relaxed text-lg md:text-xl lg:text-2xl">
+        In 2025, our initiative will continue with a new project called
+        <span class="font-medium text-purple-300">"Women's Matinee."</span>
+        This project aims to rediscover forms of collective togetherness of
+        women* and explore new ways of feminist solidarity.
+      </p>
+    </div>
+
+    <div class="text-center mx-auto max-w-4xl px-4 md:px-6 lg:px-8">
+      <p
+        class="text-3xl md:text-5xl lg:text-6xl mt-12 md:mt-24 lg:mt-36 text-purple-300 font-semibold tracking-wide transform hover:scale-105 transition-transform duration-300 mb-8 md:mb-12"
+      >
+        Join us on this journey and let's build a collective future together!
+      </p>
+
+      <p
+        class="text-white/90 italic text-xs md:text-sm backdrop-blur-sm bg-purple-400/40 p-3 md:p-4 rounded-lg inline-block mx-4 md:mx-0"
+      >
+        *Das Goldene Buch initiative is operated by the art and cultural
+        association
+        <a
+          href="https://fabrikraum.org"
+          class="underline hover:text-purple-200 transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Fabrikraum </a
+        >.
+      </p>
+    </div>
+  </div>
+</div>
+<app-navbar></app-navbar>
+
+<div class="min-h-screen flex flex-col">
+  <main class="flex-grow">
+    <router-outlet></router-outlet>
+  </main>
+  <app-footer></app-footer>
+</div>
+<div class="relative min-h-6 flex items-center py-10 overflow-hidden">
+    <!-- Decorative background elements -->
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-pink-200 to-transparent"
+    ></div>
+  
+    <!-- Floating shapes -->
+    <div
+      class="absolute w-64 h-64 bg-purple-200/20 rounded-full blur-3xl -left-20 animate-blob"
+    ></div>
+    <div
+      class="absolute w-72 h-72 bg-red-200/20 rounded-full blur-3xl -right-20 animate-blob animation-delay-2000"
+    ></div>
+  
+    <div class="relative w-full max-w-7xl mx-auto px-6 z-10">
+      <!-- Header Section -->
+      <div class="text-center mb-24">
+        <h1
+          class="text-6xl md:text-7xl lg:text-[8    rem] font-bold text-purple-400 scroll-animate scroll-fade-left leading-none mb-8"
+        >
+          Events 
+        </h1>
+      </div>
+    </div>
+  </div>
+  <app-archive-header></app-archive-header>
+<div class="w-full max-w-7xl mx-auto px-6 py-12">
+  <div class="flex justify-center mb-8">
+    <select
+  [(ngModel)]="selectedYear"
+  class="px-4 py-2 rounded-lg border border-purple-200 bg-transparent text-purple-600 
+         focus:outline-none focus:ring-2 focus:ring-purple-300 focus:text-white focus:bg-purple-200
+         cursor-pointer transition-all duration-300 ease-in-out 
+         shadow-sm hover:shadow-md appearance-none bg-purple-200 text-3xl"
+  (change)="onYearChange()"
+  aria-label="Select Year"
+ 
+
+>
+  <option *ngFor="let year of availableYears" [value]="year">
+    {{ year === "all" ? "2022 - 2025" : year }}
+  </option>
+</select>
+
+  </div>
+
+  <div *ngFor="let year of groupedEvents | keyvalue" class="mb-12">
+    <h2 class="text-3xl font-bold text-purple-600 mb-6">
+      {{ year.key }} - {{ getHeadline(year.key) }}
+    </h2>
+
+    <div class="mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          *ngFor="let event of year.value"
+          class="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+        >
+          <img
+            *ngIf="event.imageUrl"
+            [src]="event.imageUrl"
+            [alt]="event.title"
+            class="w-full h-48 object-cover rounded-lg mb-4"
+          />
+
+          <h4 class="text-xl font-bold text-purple-600 mb-2">
+            {{ event.title }}
+          </h4>
+
+          <p class="text-gray-600 mb-2">
+            {{ event.startDate | date }} 
+            <span *ngIf="event.endDate"> - {{ event.endDate | date }}</span>
+          </p>
+          <div class="transition-all duration-300 ease-in-out">
+            <p class="text-gray-800">
+              <span *ngIf="!event.isExpanded">{{
+                truncateText(event.description)
+              }}</span>
+              <span *ngIf="event.isExpanded">{{ event.description }}</span>
+            </p>
+
+            <button
+              *ngIf="shouldShowExpandButton(event.description)"
+              (click)="toggleDescription(event)"
+              class="mt-4 px-4 py-2 text-sm text-purple-600 hover:text-purple-800 transition-colors"
+            >
+              {{ event.isExpanded ? "Weniger anzeigen" : "Mehr anzeigen" }}
+            </button>
+
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="relative min-h-6 flex items-center py-10 overflow-hidden">
+    <!-- Decorative background elements -->
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-pink-200 to-transparent"
+    ></div>
+  
+    <!-- Floating shapes -->
+    <div
+      class="absolute w-64 h-64 bg-purple-200/20 rounded-full blur-3xl -left-20 animate-blob"
+    ></div>
+    <div
+      class="absolute w-72 h-72 bg-red-200/20 rounded-full blur-3xl -right-20 animate-blob animation-delay-2000"
+    ></div>
+  
+    <div class="relative w-full max-w-7xl mx-auto px-6 z-10">
+      <!-- Header Section -->
+      <div class="text-center mb-24">
+        <h1
+          class="text-6xl md:text-7xl lg:text-[8    rem] font-bold text-purple-400 scroll-animate scroll-fade-left leading-none mb-8"
+        >
+        Reach out to us! 
+        </h1>
+      </div>
+    </div>
+  </div>
+  <app-contact-header></app-contact-header>
+
+<div class="max-w-4xl mx-auto p-8 mt-16 bg-gray-100/50 rounded-lg shadow-xl">
+  <div class="flex flex-col sm:flex-row items-stretch gap-12 min-h-[300px]">
+    
+    <!-- Contact Information Column -->
+    <div class="flex-1">
+      <h2 class="text-4xl font-bold text-purple-500 mb-6">Contact</h2>
+      <p class="text-pink-300 text-lg md:text-xl mb-3">
+        Would you like to learn more about our events, open calls, and workshops?
+      </p>
+      <p class="text-pink-300 text-lg md:text-xl mb-3">
+        Are you interested in collaborating or becoming a partner? Do you have ideas, feedback, or impressions to share?
+      </p>
+      <p class="text-pink-300 text-lg md:text-xl mb-3">
+        Feel free to email us at 
+        <a href="mailto:info&#64;dasgoldenebuch.org" class="text-purple-500 font-semibold">
+          info&#64;dasgoldenebuch.org
+        </a>
+      </p>
+      <p class="text-pink-300 text-lg md:text-xl mb-3">
+        Just want to stay in touch? Subscribe to our newsletter to stay up to date!
+      </p>
+      <p class="text-pink-300 text-lg md:text-xl">
+        If you'd like to promote our activities, you can find our press kit
+        <a href="#" class="text-purple-500 font-semibold">here</a>.
+      </p>
+    </div>
+    
+
+         <div class="border-t border-purple-500 md:border-t-0 md:border-l md:pl-6">  </div>
+    
+    <!-- About Us / Organization Column -->
+    <div class="flex-1 flex flex-col items-start">
+  
+      
+      <h3 class="text-4xl font-bold text-purple-500 mb-6">About Us</h3>
+      <p class="text-pink-300 text-lg md:text-xl mb-2">
+        Das Goldene Buch is operated by Fabrikraum Kultur und Kunstverein
+      </p>
+      <br>
+          <!-- Fabrikraum Logo -->
+          <img 
+          src="Images/black-logo-png-170x175.png" 
+          alt="Fabrikraum Logo"
+          class="w-20 h-20 mb-6 animate-spin-slow hover:animate-spin"
+        />
+      <p class="text-pink-300 text-lg md:text-xl font-semibold mb-2">
+        Fabrikraum Kultur- &amp; Kunstverein
+      </p>
+      <p>
+        <a 
+          href="http://www.fabrikraum.org" 
+          class="text-purple-500 text-lg md:text-xl font-semibold"
+        >
+          www.fabrikraum.org
+        </a>
+      </p>
+      <p class="text-pink-300 text-lg md:text-xl mt-3">
+        Johnstraße 25-27, 1150 Wien
+      </p>
+      <p>
+        <a 
+          href="mailto:hello&#64;fabrikraum.org" 
+          class="text-purple-500 text-lg md:text-xl font-semibold"
+        >
+          hello&#64;fabrikraum.org
+        </a>
+      </p>
+      <p class="text-pink-300 text-lg md:text-xl mt-3">
+        ZVR- Zahl: 1405956277
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Social Icons Section -->
+  <div class="flex justify-center items-center gap-8 mt-12 bg-pink-200/50 rounded-lg p-4">
+    <img 
+      src="icons/fb.png" 
+      alt="Facebook" 
+      class="w-12 h-12 transition-transform transform hover:scale-110"
+    />
+    <img 
+      src="icons/insta.webp" 
+      alt="Instagram" 
+      class="w-12 h-12 transition-transform transform hover:scale-110"
+    />
+    <img 
+      src="icons/yt.png" 
+      alt="YouTube" 
+      class="w-12 h-12 transition-transform transform hover:scale-110"
+    />
+    <a 
+      href="https://www.instagram.com/dasgoldenebuch/" 
+      class="text-purple-500 text-xl font-semibold border-2 border-purple-500 rounded-lg p-2"
+    >
+      Press Kit
+    </a>
+  </div>
+</div>
+<footer class="bg-pink-200 text-white">
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Footer Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Company Info -->
+      <div class="text-center md:text-left">
+        <img src="Images/gb.png" alt="Goldenebuch Logo" class="w-32 mb-4" />
+      </div>
+
+      <!-- Quick Links -->
+      <div class="text-center">
+        <h3 class="text-xl font-bold mb-4">Links</h3>
+        <ul class="space-y-2">
+          <li>
+            <a href="/" class="hover:text-purple-400 transition-colors">Home</a>
+          </li>
+          <li>
+            <a href="/news" class="hover:text-purple-400 transition-colors"
+              >News</a
+            >
+          </li>
+          <li>
+            <a href="/about" class="hover:text-purple-400 transition-colors"
+              >About</a
+            >
+          </li>
+          <li>
+            <a href="/contact" class="hover:text-purple-400 transition-colors"
+              >Contact</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="text-center md:text-right">
+        <h3 class="text-xl font-bold mb-4">Contact</h3>
+        <div class="space-y-2">
+          <p class="text-sm">Email: info&#64;goldenebuch.com</p>
+          <p class="text-sm">Phone: +41 123 456 789</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sponsors Section -->
+    <div class="border-t border-white pt-8">
+      <div class="text-center mb-6">
+        <h3 class="text-xl font-bold">Our Sponsors</h3>
+        <p class="text-sm mt-2">
+          Thank you to our amazing sponsors for their continued support!
+        </p>
+      </div>
+      <div class="flex justify-center items-center gap-8 mb-8">
+        <img
+          src="Images/shiftlogo_bunt-300x300.jpg"
+          alt="Sponsor 1"
+          class="h-16 opacity-90 hover:opacity-100 transition-opacity"
+        />
+
+        <img
+          src="Images/black-logo-png-170x175.png"
+          alt="Fabrikraum"
+          class="h-16 opacity-90 hover:opacity-100 transition-opacity"
+        />
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="border-t border-white mt-8 pt-4">
+      <p class="text-center text-sm">
+        © 2025 Goldenebuch. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
+<div class="relative min-h-6 flex items-center py-10 overflow-hidden">
+  <!-- Decorative background elements -->
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-pink-200 to-transparent"
+  ></div>
+
+  <!-- Floating shapes -->
+  <div
+    class="absolute w-64 h-64 bg-purple-200/20 rounded-full blur-3xl -left-20 animate-blob"
+  ></div>
+  <div
+    class="absolute w-72 h-72 bg-red-200/20 rounded-full blur-3xl -right-20 animate-blob animation-delay-2000"
+  ></div>
+
+  <div class="relative w-full max-w-7xl mx-auto px-6 z-10">
+    <!-- Header Section -->
+    <div class="text-center mb-24">
+      <h1
+      class="text-6xl md:text-7xl lg:text-[8 rem] font-bold text-purple-400 scroll-animate scroll-fade-left leading-none mb-8"
+    >
+        Das Goldene Buch:
+      </h1>
+      <p
+        class="text-4xl md:text-4xl text-white/80 font-light tracking-wide drop-shadow-xl"
+      >
+        Ein feministisches Zine-Projekt von 2022 - 2025
+      </p>
+    </div>
+
+    <!-- Events Grid -->
+    <div
+    class="relative mt-5  z-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-20 "
+  >
+      <div
+        class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-400/10 to-purple-400/5 p-1"
+      >
+        <div
+          class="relative p-6 h-full transition-transform duration-300 group-hover:scale-105"
+        >
+          <h2
+            class="text-4xl md:text-5xl text-purple-300 group-hover:text-purple-400 font-medium mb-4"
+          >
+            Befreiende Evas
+          </h2>
+          <span class="text-white font-bold text-xl">2022</span>
+        </div>
+      </div>
+
+      <div
+        class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-400/10 to-purple-400/5 p-1"
+      >
+        <div
+          class="relative p-6 h-full transition-transform duration-300 group-hover:scale-105"
+        >
+          <h2
+            class="text-4xl md:text-5xl text-purple-300 group-hover:text-purple-400 font-medium mb-4"
+          >
+            Das Goldene Buch
+          </h2>
+          <span class="text-white font-bold text-xl">2023</span>
+        </div>
+      </div>
+
+      <div
+        class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-400/10 to-purple-400/5 p-1"
+      >
+        <div
+          class="relative p-6 h-full transition-transform duration-300 group-hover:scale-105"
+        >
+          <h2
+            class="text-4xl md:text-5xl text-purple-300 group-hover:text-purple-400 font-medium mb-4"
+          >
+            Frauen Matinee
+          </h2>
+          <span class="text-white font-bold text-xl">2025</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="relative min-h-6 flex items-center py-10 overflow-hidden">
+  <!-- Decorative background elements -->
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-pink-200 to-transparent"
+  ></div>
+
+  <!-- Floating shapes -->
+  <div
+    class="absolute w-64 h-64 bg-purple-200/20 rounded-full blur-3xl -left-20 animate-blob"
+  ></div>
+  <div
+    class="absolute w-72 h-72 bg-red-200/20 rounded-full blur-3xl -right-20 animate-blob animation-delay-2000"
+  ></div>
+
+  <div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 z-10">
+    <!-- Header Section -->
+    <div class="text-center mb-12 sm:mb-24">
+      <h1
+      class="text-6xl md:text-7xl lg:text-[8    rem] font-bold text-purple-400 scroll-animate scroll-fade-left leading-none mb-8"
+    >
+        A Space for Solidarity and Empowerment through Art for Women*
+      </h1>
+    </div>
+  </div>
+</div>
+<app-mission-header></app-mission-header>
+
+<div class="relative min-h-screen py-16 overflow-hidden">
+  <div class="mb-0 flex justify-center items-center">
+    <h2
+      class="text-[12vw] font-black text-purple-300/15 leading-[0.4] select-none translate-y-0 sm:translate-y-8"
+    >
+      MISSION
+    </h2>
+  </div>
+  <div class="space-y-12 px-4 md:px-10 max-w-6xl mx-auto">
+    <div
+    
+    >
+      <article class="space-y-8">
+          <p class="text-pink-300/95 leading-relaxed text-lg md:text-xl lg:text-2xl ">
+          <span class="font-bold text-purple-300">Das Goldene Buch</span>
+          is a feminist initiative that provides a platform for women* who have
+          never had the opportunity to connect with art, enabling them to tell
+          their own stories, express themselves freely, and unlock their
+          creative potential. As a space for creative liberation, DGB is not
+          only an artistic production but also part of a broader movement for
+          social solidarity and change. In addition to workshops, various events
+          such as poetry readings, concerts, and performances bring women*
+          together to create a collective space for production and sharing. One
+          of the main goals of our initiative is to establish DGB as a regularly
+          published independent publication, amplifying women*’s voices and
+          reaching a wider audience.
+        </p>
+
+        <p class="text-pink-300/95 leading-relaxed text-lg md:text-xl lg:text-2xl ">
+          This project aims to provide a space for migrant women*, who are often
+          rendered invisible in the face of social, cultural, and economic
+          challenges, to share their stories, express themselves, and connect
+          meaningfully with other communities. In this project, migrant women*
+          who face language barriers, gender-based restrictions, bureaucratic
+          obstacles, legal insecurity, and economic difficulties in their daily
+          lives are empowered by coming together in a network of solidarity and
+          trust. The project not only offers a space for individual expression
+          and creative freedom, but also creates bonds between women* across
+          borders. This platform, where migrant and non-migrant women* meet in a
+          supportive community, provides a strong foundation for building a
+          collective sense of solidarity. Workshops, events, and creative
+          production processes not only allow women* to explore their artistic
+          potential but also enable women* from different backgrounds to learn
+          from each other's experiences and be mutually inspired. This platform
+          is not only a safe space but also a laboratory where women* discover
+          their potential and find the courage to reshape social structures. It
+          provides a space to make their voices heard and supports them to be
+          part of a movement that empowers them economically, socially, and
+          politically. Crossing borders, questioning norms, and strengthening
+          solidarity, this feminist space invites us to sow the seeds of a more
+          egalitarian future together.
+        </p>
+      </article>
+    </div>
+  </div>
+</div>
+<nav class="h-44 sticky top-0 left-0 w-full z-50">
+  <!-- Mobile Menu Button Container -->
+  <div
+    class="lg:hidden fixed top-0 w-full flex justify-between items-center p-4 bg-pink-200"
+  >
+    <img
+      src="Images/gb.png"
+      alt="Goldenebuch Logo"
+      class="w-24 h-24 object-contain transition-all hover:backdrop-filter hover:backdrop-brightness-75 p-2 hover:backdrop-saturate-200"
+    />
+    <button
+      type="button"
+      class="text-purple-300 hover:text-purple-400 focus:outline-none"
+      (click)="toggleMenu()"
+      aria-label="Toggle menu"
+    >
+      <svg
+        class="h-16 w-16"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Hauptinhalt der Navbar -->
+  <div class="w-full h-full bg-pink-200">
+    <div class="flex justify-center items-center h-full">
+      <!-- Desktop and Tablet Navigation -->
+      <div
+        class="hidden lg:flex items-center justify-center space-x-8 xl:space-x-20 px-4"
+      >
+        <!-- First half of navigation links -->
+        <div class="flex space-x-4 xl:space-x-8 items-center">
+          <div
+            *ngFor="let link of navLinks.slice(0, navLinks.length / 2)"
+            class="relative flex items-center justify-center"
+          >
+            <a
+              [routerLink]="link.url"
+              class="text-white font-bold hover:text-purple-400 transition-colors text-xl xl:text-3xl text-center border-2 rounded-md border-white p-1 shadow-sm"
+            >
+              {{ link.label }}
+            </a>
+          </div>
+        </div>
+
+        <!-- Logo -->
+       <a [routerLink]="['/news']"> <img
+          src="Images/gb.png"
+          alt="Goldenebuch Logo"
+          class="w-32 h-32 object-contain transition-all hover:backdrop-filter hover:backdrop-brightness-75 p-2 hover:backdrop-saturate-200"
+        />
+        </a>
+
+        <!-- Second half of navigation links -->
+        <div class="flex space-x-4 xl:space-x-8 items-center">
+          <div
+            *ngFor="let link of navLinks.slice(navLinks.length / 2)"
+            class="relative flex items-center justify-center"
+          >
+            <a
+              [routerLink]="link.url"
+              class="text-white font-bold hover:text-purple-400 transition-colors text-xl xl:text-3xl text-center border-2 rounded-md border-white p-1 shadow-sm"
+            >
+              {{ link.label }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div *ngIf="menuOpen" class="lg:hidden fixed inset-0 bg-pink-200 z-50">
+    <div class="flex justify-between items-center p-4">
+      <a [routerLink]="['/news']">
+        <img
+        src="Images/gb.png"
+        alt="Goldenebuch Logo"
+        class="w-24 h-24 object-contain"
+      />
+      </a>
+      <button
+        type="button"
+        class="text-purple-300 hover:text-purple-400 focus:outline-none"
+        (click)="toggleMenu()"
+        aria-label="Close menu"
+      >
+        <svg
+          class="h-16 w-16"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="flex flex-col items-center justify-center space-y-6 mt-8">
+      <a
+        *ngFor="let link of navLinks"
+        [routerLink]="link.url"
+        (click)="toggleMenu()"
+        class="text-2xl font-bold text-white hover:text-purple-400 transition-colors"
+      >
+        {{ link.label }}
+      </a>
+    </div>
+  </div>
+</nav>
+<app-hero></app-hero>
+<div class="container mx-auto px-2 py-8">
+  <div class="relative">
+    <!-- Large Background Text -->
+    <div class="mb-0 flex justify-center items-center">
+      <h2
+        class="text-[12vw] font-black text-purple-300/15 leading-[0.9] select-none translate-y-8"
+      >
+        NEWS
+      </h2>
+    </div>
+
+    <!-- News Grid -->
+    <div
+      class="relative -mt-16 z-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
+    >
+      <div
+        *ngFor="let news of newsList"
+        class="bg-pink-200/50 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 hover:scale-102"
+      >
+        <!-- Image container -->
+        <div class="aspect-video w-full overflow-hidden rounded-t-lg">
+          <img
+            *ngIf="news.image"
+            [src]="news.image"
+            [alt]="news.title"
+            class="w-full h-full object-cover"
+          />
+        </div>
+
+        <!-- Content container -->
+        <div class="p-8">
+          <h3 class="text-2xl font-bold mb-3 text-purple-600">
+            <a [routerLink]="['/news', news.id]" class="hover:text-purple-600">
+              {{ news.title }}
+            </a>
+          </h3>
+
+          <div class="text-sm text-white mb-4 font-semibold">
+            {{ news.place }} | {{ news.eventDate | date : "mediumDate" }}
+          </div>
+
+          <p class="text-white mb-6 text-lg">
+            {{ news.shortInfo }}
+          </p>
+
+          <a
+            [routerLink]="['/news', news.id]"
+            class="inline-block px-6 py-3 text-lg bg-purple-400 text-white rounded-md hover:bg-purple-600 transition-colors duration-300 shadow-md hover:shadow-lg"
+          >
+            Details
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-retrospect></app-retrospect>
+
+<div class="flex justify-center items-center w-full mb-12">
+  <h2 class="text-4xl sm:text-8xl md:text-6xl text-white font-bold">
+    Memories
+  </h2>
+</div>
+<div class="relative w-full px-4 md:px-8 lg:px-12">
+  <!-- Background Text -->
+  <div
+    class="absolute inset-0 flex items-center justify-center pointer-events-none"
+  >
+    <span class="text-[15vw] font-black text-purple-300/20 select-none">
+      MEMORIES
+    </span>
+  </div>
+
+  <div class="bg-transparent">
+    <!-- Collage Grid -->
+    <div class="relative min-h-[800px] lg:min-h-[1000px] mx-auto">
+      <div
+        *ngFor="let image of eventImages; let i = index"
+        [ngStyle]="{
+          transform: 'rotate(' + randomData[i].rotate + 'deg)',
+          position: 'absolute',
+          left:
+            'clamp(5%, ' +
+            randomData[i].left +
+            '%, ' +
+            (95 - (randomData[i].left > 50 ? 40 : 0)) +
+            '%)',
+          top: randomData[i].top + '%'
+        }"
+        class="group w-48 sm:w-72 md:w-80 lg:w-96 xl:w-[420px] bg-white p-3 sm:p-4 rounded-lg shadow-lg hover:scale-105 hover:z-10 hover:shadow-xl transition-all duration-300 cursor-pointer"
+        (click)="openFullscreen(image)"
+      >
+        <img
+          [src]="image.url"
+          [alt]="image.alt"
+          class="w-full aspect-square object-cover rounded-md"
+          (error)="handleImageError($event)"
+        />
+        <div class="mt-2 bg-purple-400 p-2 rounded-md">
+          <p class="text-sm text-white text-center font-medium">
+            {{ image.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fullscreen Overlay -->
+<div
+  *ngIf="selectedImage"
+  class="fixed inset-0 bg-pink-200 bg-opacity-90 z-50 flex items-center justify-center"
+  (click)="closeFullscreen()"
+>
+  <div
+    class="max-w-4xl w-full mx-4 bg-white rounded-lg p-4"
+    (click)="$event.stopPropagation()"
+  >
+    <img
+      [src]="selectedImage.url"
+      [alt]="selectedImage.alt"
+      class="w-full object-contain max-h-[80vh] rounded-lg"
+    />
+    <div class="mt-4 bg-purple-400 p-4 rounded-md">
+      <p class="text-sm text-white text-center font-medium">
+        {{ selectedImage.description }}
+      </p>
+    </div>
+    <button
+      (click)="closeFullscreen()"
+      class="absolute top-4 right-4 text-white hover:text-purple-400"
+      aria-label="Close"
+    >
+      <svg
+        class="w-16 h-16"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="h-24"></div>
+<p>support works!</p>
+<p>team works!</p>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Goldenebuch</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>
